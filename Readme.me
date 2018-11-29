@@ -1,0 +1,53 @@
+Technologies used :
+
+Java 7
+Spring MVC : 4.2.4.RELEASE
+spring-jdbc : 4.2.4.RELEASE
+Derby database : 10.11.1.1
+AngularJs : 1.6  
+
+SDK : Eclipse Mars
+Build Tool : Maven
+
+Clone/Download project from repository
+Import bank project as eclipse project
+Import frontend project as eclipse project
+
+Use command mvn clean install (to install the required liabraries) 
+
+Use Tomcat 7  to deploy the bank and front end project
+
+Api End Points
+
+Example server localhost:8080
+
+Add Customer[POST] : http://localhost:8080/bank/add_customer
+Sample Input Data : 
+{
+  "firstName" : "John",
+  "lastName" : "Miller",
+}
+
+Add Current Account to Customer [POST] : http://localhost:8080/bank/add_current_account
+Sample Input Data : 
+{
+    "customerId": 1,
+   	"balance" : 300
+}
+
+Deposit/Withdrawal from account [POST] : http://localhost:8080/bank/add_trans_accid
+Sample Input Data [transactionType : DEBIT/CREDIT]: 
+{
+	"accountId": "1",
+	"amount": "300",
+	"transactionType": "CREDIT"
+}
+
+
+Get Customer with Id [GET] : http://localhost:8080/bank/get_customer/{customerId}
+Get all customers [GET] : http://localhost:8080/bank/get_all_customer/
+List all accounts of customer [GET] : http://localhost:8080/bank/list_customer_account/{customerId}
+Find all transactions for account of customer [GET] : http://localhost:8080/bank/find_all_trans_accid/{accountId}
+
+
+
