@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>SB Admin 2 - Bootstrap Admin Theme</title>
+
+<!-- Bootstrap Core CSS -->
+<link href="static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- MetisMenu CSS -->
+<link href="static/css/plugins/metisMenu/metisMenu.min.css"
+	rel="stylesheet">
+
+<!-- Timeline CSS -->
+<link href="static/css/plugins/timeline.css" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link href="static/css/sb-admin-2.css" rel="stylesheet">
+
+<!-- Morris Charts CSS -->
+<link href="static/css/plugins/morris.css" rel="stylesheet">
+
+<!-- Custom Fonts -->
+<link href="static/font-awesome-4.1.0/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+
+
+
+</head>
+
+<body ng-app="bankApp" ng-controller="bankCtrl">
+
+	<div id="wrapper">
+		<!-- Navigation -->
+		<nav class="navbar navbar-default navbar-static-top" role="navigation"
+			style="margin-bottom: 0">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="index.html">Bank Account</a>
+			</div>
+			<!-- /.navbar-header -->
+
+
+			<!-- /.navbar-top-links -->
+
+			<div class="navbar-default sidebar" role="navigation">
+				<div class="sidebar-nav navbar-collapse">
+					<ul class="nav" id="side-menu">
+
+						<li><a href="#"> Customer<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level">
+								<li><a href="#!add_customer">Add Customer</a></li>
+								<li><a href="#!list_customer">List Customer</a></li>
+							</ul> <!-- /.nav-second-level --></li>
+
+					</ul>
+				</div>
+				<!-- /.sidebar-collapse -->
+			</div>
+			<!-- /.navbar-static-side -->
+		</nav>
+
+
+		<div id="page-wrapper">
+			<div ng-view></div>
+			<!-- /.row -->
+		</div>
+		<!-- /#page-wrapper -->
+	</div>
+	<!-- /#wrapper -->
+
+	<!-- jQuery -->
+	<script src="static/js/jquery.js"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="static/js/bootstrap.min.js"></script>
+
+	<!-- Metis Menu Plugin JavaScript -->
+	<script src="static/js/plugins/metisMenu/metisMenu.min.js"></script>
+
+
+	<!-- Custom Theme JavaScript -->
+	<script src="static/js/sb-admin-2.js"></script>
+
+	<script>
+		var app = angular.module("bankApp", [ "ngRoute" ]);
+		app.controller('bankCtrl', function($scope, $http, $routeParams) {
+			$scope.fields = {};
+			$scope.customerId = $routeParams.customerId;
+			$scope.accountId = $routeParams.accountId;
+			$scope.firstName = $routeParams.firstName;
+			$scope.lastName = $routeParams.lastName;
+			$scope.getData = function (url) {
+				console.log("Url : " + url)
+				httpReq("GET", url, null)
+		    };
+		    
+		    $scope.postData = function(url) {
+		    	var data = $scope.fields;
+		    	data.customerId = $scope.customerId;
+		    	data.accountId = $scope.accountId;
+		    	httpReq("POST", url, data)
+		    }
+		    
+		    function httpReq(method, url, data) {
+		    	$http({
+		            method : method,
+		            url : url,
+		            data : data,
+		            headers: {
+		                "Content-Type": "application/json"
+		            }
+		        }).then(function successCallback(response){
+	                $scope.response = response;
+	            }, function errorCallback(response){
+	                console.log("Unable to perform get request");
+	            });
+		    }
+		});
+		app.config(function($routeProvider) {
+			$routeProvider.when("/list_customer", {
+				templateUrl : "parts/list_customer.html"
+			}).when("/add_customer", {
+				templateUrl : "parts/add_customer.html"
+			}).when("/account/:customerId", {
+				templateUrl : "parts/list_customer_account.html",
+				controller : "bankCtrl"
+			}).when("/add_account/:customerId/:firstName/:lastName", {
+				templateUrl : "parts/add_account.html",
+				controller : "bankCtrl"
+				
+			}).when("/list_acc_transactions/:accountId", {
+				templateUrl : "parts/list_account_transactions.html",
+				controller : "bankCtrl"
+			});;
+			
+		});
+		
+		
+		
+		
+	</script>
+</body>
+
+</html>
